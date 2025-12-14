@@ -9,13 +9,20 @@ Bài toán đặt ra là:
 
 ## 🚀 Cấu trúc project
 ```
-BaiTHTuan02_AStar_TSP/
-├── results/ # Lưu kết quả (ảnh, GIF)
-├── astar.py # Lớp AStarSolver: cài đặt thuật toán A*
-├── graph.py # Lớp TSPGraph: đồ thị và heuristic
-├── main.py # Chương trình chính
-├── points.py # Sinh điểm, tính khoảng cách
-└── visualizer.py # Trực quan hóa quá trình và kết quả
+BaiTH_Tuan02_AStar_TSP/
+├── results/                    # Thư mục lưu kết quả đầu ra
+│   ├── a_star_tsp.gif           # GIF mô phỏng quá trình A*
+│   ├── final_result.png         # Đồ thị kết quả cuối cùng
+│   └── random_points_10.json    # File JSON lưu các điểm sinh ngẫu nhiên
+│
+├── astar.py                    # Lớp AStarSolver: triển khai thuật toán A*
+├── graph.py                    # Lớp TSPGraph: đồ thị và heuristic
+├── main.py                     # Chương trình chính (entry point)
+├── points.py                   # Định nghĩa Point, sinh điểm, ma trận khoảng cách
+├── visualizer.py               # Trực quan hóa quá trình và kết quả
+│
+├── requirements.txt            # Danh sách thư viện Python cần thiết
+└── README.md                   # Tài liệu mô tả project
 ```
 ---
 
@@ -27,10 +34,10 @@ Project sử dụng các thư viện Python sau:
 - `matplotlib`
 - `imageio`
 
-Cài đặt bằng lệnh:
+📦 Cài đặt nhanh bằng requirements.txt
 
 ```
-pip install numpy matplotlib imageio
+pip install -r requirements.txt
 ```
 ## 🧠 Các thành phần chính
 ---
@@ -114,14 +121,14 @@ Số lượng điểm n (mặc định 5, tối đa 12)
 
 - n: sinh điểm ngẫu nhiên
 ---
-## 📊 Kết quả
-Sau khi chạy xong, các kết quả được lưu trong thư mục results/:
-- a_star_tsp.gif
-→ GIF mô phỏng quá trình tìm kiếm của A*
-- final_result.png
-→ Đồ thị kết quả cuối cùng (đường đi + tổng chi phí)
-- random_points_n.json
-→ File JSON lưu các điểm đã sinh (nếu dùng điểm ngẫu nhiên)
+## 📊 Kết quả đầu ra
+Sau khi chạy xong:
+
+- results/a_star_tsp.gif: mô phỏng toàn bộ quá trình A*
+
+- results/final_result.png: đồ thị đường đi tối ưu
+
+- results/random_points_n.json: dữ liệu điểm (nếu sinh ngẫu nhiên)
 ---
 ## ⚠️ Lỗi thường gặp & cách khắc phục
 ### ❌ Không tìm thấy thư viện
