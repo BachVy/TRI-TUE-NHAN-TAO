@@ -75,9 +75,9 @@ BaiHTuan02 Astar TSP/                      # Thư mục gốc dự án
     └── random_points_12.json              # File JSON dữ liệu điểm ngẫu nhiên (n=12)
 ```
 - **Lưu ý về results/:**
-- Thư mục này được tạo tự động khi chạy main.py.
-- Tất cả file không có timestamp (ghi đè nếu chạy lại), nhưng có thể chỉnh để thêm (ví dụ: trong runner.py).
-- Nếu chạy nhiều lần, thư mục sẽ chứa file mới (có thể xóa thủ công nếu cần).
+    - Thư mục này được tạo tự động khi chạy main.py.
+    - Tất cả file không có timestamp (ghi đè nếu chạy lại), nhưng có thể chỉnh để thêm (ví dụ: trong runner.py).
+    - Nếu chạy nhiều lần, thư mục sẽ chứa file mới (có thể xóa thủ công nếu cần).
 
 - **File tùy chọn:**
 - README.md.txt: Bản sao README (có thể đổi tên thành README.md).
