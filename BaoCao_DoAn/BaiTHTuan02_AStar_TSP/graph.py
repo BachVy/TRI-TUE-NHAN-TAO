@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List
 from points import Point, get_distance_matrix
 
 class TSPGraph:
@@ -6,7 +6,7 @@ class TSPGraph:
         self.points = points
         self.n = len(points)
         self.dist = get_distance_matrix(points)
-        self.start_node = 0  # Kho là điểm 0
+        self.start_node = 0  
 
     def heuristic(self, current: int, visited: int) -> float:
         """Heuristic admissible: min_dist * (remaining / 2)"""

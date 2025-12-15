@@ -1,159 +1,85 @@
-# 🚚 Bài toán Người Bán Hàng Du Lịch (Traveling Salesman Problem – TSP)
-## 📌 Giới thiệu
+# Triển Khai Thuật Toán Nearest Neighbor Cho TSP
+## Giới Thiệu
+Dự án này triển khai thuật toán Nearest Neighbor (Heuristic Greedy) cho bài toán Người Bán Hàng Du Lịch (Traveling Salesman Problem - TSP) theo lập trình hướng đối tượng (OOP) bằng Python. Nó hỗ trợ tải ma trận khoảng cách từ file TXT hoặc tạo ngẫu nhiên, thực hiện giải TSP, visualize kết quả qua animation GIF và in từng bước greedy.
 
-### Dự án này triển khai giải pháp cho Bài toán Người Bán Hàng Du Lịch (Traveling Salesman Problem – TSP) sử dụng thuật toán Nearest Neighbor (Greedy Heuristic).
+### Tính Năng Chính
+- Tải ma trận: Tạo ma trận khoảng cách ngẫu nhiên hoặc load từ file TXT.
+- Triển khai Nearest Neighbor: Từ scratch với các bước chọn thành phố gần nhất chưa thăm, tính chi phí tích lũy và quay về điểm xuất phát.
+- Visualize: Tạo animation GIF hiển thị đường đi từng bước với chi phí tích lũy.
+- In từng bước: Hiển thị verbose cho greedy steps.
+- Lưu trữ: Tự động lưu ma trận TXT và GIF vào thư mục results/.
 
-## 🔍 Mô tả bài toán
+## Yêu Cầu Hệ Thống
+- Python: 3.8 trở lên.
+- Thư viện: Xem file requirements.txt để cài đặt.
 
-TSP yêu cầu tìm một chu trình có chi phí nhỏ nhất:
-- Đi qua tất cả các thành phố đúng một lần
-- Quay về điểm xuất phát
-- Tổng chi phí là nhỏ nhất
-
-🧠 Thuật toán sử dụng: **Nearest Neighbor (Greedy)**
-- Bắt đầu từ thành phố 0
-- Ở mỗi bước, chọn thành phố chưa thăm gần nhất
-- Lặp cho đến khi thăm hết
-- Quay về thành phố xuất phát
-
-📎 Đây là một heuristic greedy đơn giản, nhanh, dễ hiểu nhưng không đảm bảo tối ưu toàn cục.
-
-## ✨ Tính năng chính
-
-### 📂 Đọc ma trận khoảng cách từ file TXT hoặc tạo ngẫu nhiên
-
-- Ma trận đối xứng (G[i][j] = G[j][i])
-
-- Đường chéo chính bằng 0
-
-### 🧮 Giải bài toán TSP bằng Nearest Neighbor
-
-### 🖨️ In chi tiết từng bước chọn thành phố và chi phí tích lũy
-
-### 🎞️ Tạo GIF animation minh họa quá trình đi
-
-### 💾 Lưu kết quả vào thư mục results/
-
-## 🛠️ Công nghệ sử dụng
-
-### Ngôn ngữ: Python 3.12
-
-### Thư viện:
-- numpy
-- networkx
-- matplotlib
-- pillow (tạo GIF)
-
-
-## 💻 Yêu cầu hệ thống
-
-### Python 3.8+
-
-### Các thư viện được liệt kê trong requirements.txt
-
-## 📦 Cài đặt
-### 1️⃣ Clone hoặc tải project
+## Cài Đặt
+1. Clone hoặc tải dự án về máy:
 ```
-git clone <repo-url>
-cd TSP_Project
+git clone <repo-url>  # Nếu từ Git
+# Hoặc tải ZIP và giải nén
 ```
-### 2️⃣ Cài đặt thư viện
+2. Tạo môi trường ảo (khuyến nghị):
+:
+```python -m venv venv
+source venv/bin/activate  # Linux/Mac
+# Hoặc venv\Scripts\activate  # Windows
+```
+3. Cài đặt thư viện:
 ```
 pip install -r requirements.txt
 ```
-Hoặc cài thủ công:
-```
-pip install numpy networkx matplotlib pillow
-```
-## 📁 Cấu trúc dự án
-```
-TSP_Project/
-├── main.py                     # File chính (hàm main)
-├── matrix_handler.py           # Xử lý ma trận (đọc file, tạo random, lưu)
-├── tsp_algorithm.py            # Thuật toán Nearest Neighbor (greedy)
-├── tsp_result.py               # Dataclass lưu đường đi và chi phí
-├── tsp_visualizer.py           # Tạo animation GIF
-├── requirements.txt            # Danh sách thư viện
-└── results/                    # Thư mục lưu kết quả
-    ├── random_dist_matrix.txt  # Ma trận ngẫu nhiên (nếu dùng random)
-    └── tsp_animation.gif       # GIF mô phỏng đường đi
-```
-## ▶️ Hướng dẫn sử dụng
-Chạy chương trình
+
+## Hướng Dẫn Sử Dụng
+### Chạy Dự Án
+Chạy file chính:
 ```
 python main.py
 ```
-### Nhập dữ liệu
+- Chương trình sẽ hỏi đường dẫn file ma trận (TXT) hoặc 'random'.
+- Nếu random, nhập số thành phố n (khuyến nghị ≤20).
+- Chương trình sẽ:
+    - Tải và in ma trận khoảng cách (lưu vào results/ nếu random).
+    - Chạy Nearest Neighbor (verbose để xem từng bước chọn thành phố).
+    - Tạo và lưu animation GIF (từng bước đường đi với chi phí tích lũy).
 
-Nhập đường dẫn file TXT chứa ma trận khoảng cách
-hoặc nhập random để tạo ma trận ngẫu nhiên
+### Ví Dụ Chạy Với Random (n=4)
+- Nhập 'random' → Nhập n=4.
+- Kết quả: Đường đi greedy (e.g., 0 -> 2 -> 1 -> 3 -> 0), chi phí ~89.5, lưu GIF.
 
-Nếu chọn random:
+### Tùy Chỉnh
+- Thay đổi n: Nhập khi hỏi (lớn hơn cho test heuristic).
+- Ma trận từ file: Tạo file matrix.txt với ma trận symmetric (e.g., 0 10 15\n10 0 35...).
+- Không verbose: Gọi TSPAlgorithm(verbose=False) trong main.py.
 
-- Nhập số thành phố n
-
-- Khuyến nghị: n ≤ 20 để chạy nhanh
-
-## 📤 Kết quả đầu ra
-### Console
-
-In từng bước:
-- Thành phố được chọn
-- Chi phí từng bước
-- Chi phí tích lũy
-- In đường đi cuối cùng và tổng chi phí
-
-### File
-- results/random_dist_matrix.txt: ma trận ngẫu nhiên (nếu tạo)
-- results/tsp_animation.gif: animation từng bước
-
-### 🎞️ GIF:
-Mỗi frame thêm một cạnh
-Tiêu đề hiển thị:
+## Cấu Trúc Thư Mục
+Dự án được tổ chức theo cấu trúc modular đơn giản, với mã nguồn chính ở thư mục gốc và thư mục results/ được tạo tự động khi chạy. Dưới đây là cây thư mục đầy đủ (bao gồm file mẫu sau khi chạy một lần):
 ```
-Bước 2: 0 -> 1 -> 3 (Chi phí tích lũy: 25.5)
+BaiHTTuan04_TMDT_TSP/                       # Thư mục gốc dự án
+├── main.py                                 # Script chính: Chạy toàn bộ quy trình
+├── matrix_handler.py                       # Class MatrixHandler: Tải ma trận (file/random), lưu file
+├── tsp_algorithm.py                        # Class TSPAlgorithm: Triển khai Nearest Neighbor (greedy)
+├── tsp_result.py                           # Dataclass TSPResult: Lưu kết quả (chi phí và đường đi)
+├── tsp_visualizer.py                       # Class TSPVisualizer: Tạo animation GIF
+├── requirements.txt                        # Danh sách thư viện cần thiết
+├── README.md                               # Tài liệu hướng dẫn này
+└── results/                                # Thư mục tự tạo (chứa output sau khi chạy)
+    ├── random_dist_matrix.txt              # File TXT ma trận khoảng cách ngẫu nhiên
+    └── tsp_animation.gif                   # Animation GIF đường đi TSP (từng bước)
 ```
-## 🧪 Ví dụ chạy
-```
-Nhập đường dẫn file ma trận khoảng cách (TXT) hoặc 'random': random
-Nhập số thành phố (n, khuyến nghị ≤20): 4
-Tạo và lưu ma trận vào 'results/random_dist_matrix.txt'.
+- **Lưu ý về results/:**
+    - Thư mục này được tạo tự động khi chạy main.py.
+    - Ma trận chỉ lưu nếu dùng random (không ghi đè).
+    - GIF luôn lưu với tên cố định; xóa thủ công nếu chạy nhiều lần.
 
---- Nearest Neighbor từng bước ---
-Bước 1: Từ 0 đến 2 (chi phí 23.0, tích lũy 23.0)
-Bước 2: Từ 2 đến 1 (chi phí 35.0, tích lũy 58.0)
-Bước 3: Từ 1 đến 3 (chi phí 25.0, tích lũy 83.0)
-Quay về 0: +6.5 (tổng 89.5)
+- **File tùy chọn:**
+    - README.md.txt: Bản sao README (có thể đổi tên thành README.md).
 
-Đường đi: 0 -> 2 -> 1 -> 3 -> 0
-Chi phí min: 89.50
-```
-## 📄 Ví dụ file ma trận TXT
-```
-0 10 15 20
-10 0 35 25
-15 35 0 30
-20 25 30 0
-```
-## ⚙️ Triển khai thuật toán
-### Nearest Neighbor (Greedy Heuristic)
-Các bước:
-1. Bắt đầu từ thành phố 0
-2. Đánh dấu đã thăm
-3. Lặp n-1 lần:
-- Chọn thành phố chưa thăm gần nhất
-- Quay về thành phố 0
-- Tính tổng chi phí
 
-## ⚠️ Lưu ý
-
-1. Hiệu suất: Phù hợp n nhỏ
-
-2. Ma trận:
-- Đối xứng
-- Đường chéo = 0
-
-3. GIF lỗi:
-```
-pip install pillow
-```
+## Lưu ý & Troubleshooting
+- Lỗi Matplotlib/Pillow: Nếu không lưu GIF, kiểm tra pip install pillow matplotlib và chạy trên môi trường GUI (không headless).
+- Lỗi Import: Đảm bảo chạy từ thư mục gốc dự án (python main.py).
+- Ma trận không symmetric: Code vẫn chạy nhưng kết quả có thể không chính xác, kiểm tra input.
+- Hiệu suất: Nhanh cho n lớn nhưng heuristic không luôn tối ưu.
+- Không GUI: Comment plt.show() trong tsp_visualizer.py chỉ lưu file.
+- Mở rộng: Thêm cải thiện 2-opt bằng cách chỉnh solve() trong tsp_algorithm.py.

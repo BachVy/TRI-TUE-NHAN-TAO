@@ -47,9 +47,9 @@ class Visualizer:
         print(f"Đã lưu step {step_num} (tạm): {png_path}")
 
     def _calc_f(self, state: Tuple) -> float:
-        return 0.0  # Dummy
+        return 0.0  
 
-    def create_gif(self, num_steps: int, duration: float = 1.5):
+    def create_gif(self, num_steps: int, duration: float = 8.5):
         """Tạo GIF từ frames_dir và lưu vào results/"""
         if not os.path.exists(self.results_dir):
             os.makedirs(self.results_dir)
@@ -84,8 +84,7 @@ class Visualizer:
         plt.ylim(-1, 5)
         final_path = os.path.join(self.results_dir, 'final_result.png')
         plt.savefig(final_path, dpi=150, bbox_inches='tight')
-        plt.show() 
-        plt.close()
+        plt.close() 
         print(f"Đồ thị kết quả cuối cùng đã được lưu: {final_path}")
 
     def cleanup(self):

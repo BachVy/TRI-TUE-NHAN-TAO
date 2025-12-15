@@ -5,7 +5,7 @@ from graph import TSPGraph
 class AStarSolver:
     def __init__(self, graph: TSPGraph):
         self.graph = graph
-        self.visited_states: Dict[Tuple[int, int], float] = {}  # (current, visited): min_g
+        self.visited_states: Dict[Tuple[int, int], float] = {}  
 
     def calc_f(self, state: Tuple[int, int, float, List[int]]) -> float:
         current, visited, g, _ = state
@@ -20,10 +20,10 @@ class AStarSolver:
         pq = [(-start_f, start_state)]
         heapq.heapify(pq)
 
-        steps = []  # (current_path, queue_sample)
+        steps = [] 
         step = 0
         print(f"Step {step}: Khởi tạo - Current: {self.graph.start_node}, Path: [{self.graph.start_node}], g: {0:.2f}, h: {start_h:.2f}, f: {start_f:.2f}")
-        steps.append(([self.graph.start_node], [start_state]))  # Step 0
+        steps.append(([self.graph.start_node], [start_state]))  
         step += 1
 
         while pq and step <= max_steps:
@@ -40,7 +40,7 @@ class AStarSolver:
                 h = 0
                 f = g + h
                 print(f"Step {step}: Tìm thấy goal! Path: {path}, Total g: {g:.2f}, h: {h:.2f}, f: {f:.2f}")
-                steps.append((path, []))  # Thêm goal step
+                steps.append((path, []))  
                 return path, g, steps
 
             # Mở rộng với print
@@ -65,6 +65,7 @@ class AStarSolver:
             steps.append((path, queue_sample))
             step += 1
 
+        print("Không tìm thấy goal trong max_steps.")
         return [], 0.0, steps
 
     def _get_queue_sample(self, pq: List[Tuple[float, Tuple]]) -> List[Tuple[int, int, float, List[int]]]:

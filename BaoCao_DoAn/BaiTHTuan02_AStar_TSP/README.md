@@ -1,175 +1,91 @@
-# 🗺️ Giải Quyết Bài Toán Người Du Lịch (TSP) bằng Thuật Toán A*
+# Triển Khai Thuật Toán A* Cho Biến Thể TSP (Người Giao Hàng) Và Trực Quan Hóa
+## Giới Thiệu
+Dự án này triển khai thuật toán A* (A-star) triển khai theo lập trình hướng đối tượng (OOP) bằng Python để giải quyết biến thể của bài toán Người Du Hành (TSP - Traveling Salesman Problem). Nó tập trung vào đường đi mở từ kho (điểm 0) thăm tất cả các điểm giao hàng, sử dụng heuristic admissible để đảm bảo tối ưu. Hệ thống hỗ trợ tải dữ liệu từ file JSON hoặc tạo ngẫu nhiên, thực hiện tìm kiếm và trực quan hóa quá trình từng bước qua GIF animation và đồ thị kết quả.
 
- Đây là project Python triển khai thuật toán tìm kiếm tối ưu A\* để giải quyết
-phiên bản đơn giản của **Bài toán Người Du Lịch (Traveling Salesperson Problem – TSP)**.
+## Tính Năng Chính
+- Tải dữ liệu: Tạo điểm ngẫu nhiên (kho cố định tại (0,0), các điểm khác trong [0,5]x[0,5]), hoặc load từ file JSON.
+- Triển khai A*: Sử dụng bitmask cho visited, priority queue (heapq) cho f = g + h, heuristic min_dist * (remaining / 2) để hướng dẫn tìm kiếm.
+- Visualize: Vẽ từng bước (path tạm, queue top 3), tạo GIF animation (tốc độ tùy chỉnh), và đồ thị kết quả cuối (path xanh, chi phí).
+- Lưu trữ: Tự động lưu file JSON (điểm), PNG (hình ảnh step/final), và GIF vào thư mục results/.
 
-Bài toán đặt ra là:  
-> Tìm đường đi ngắn nhất bắt đầu từ điểm kho (node 0), đi qua tất cả các điểm còn lại, không bắt buộc quay về kho (TSP Path).
----
+## Yêu Cầu Hệ Thống
+- Python: 3.8 trở lên.
+- Thư viện: Xem file requirements.txt để cài đặt.
 
-## 🚀 Cấu trúc project
+### Cài Đặt
+1. Clone hoặc tải dự án về máy:
 ```
-BaiTH_Tuan02_AStar_TSP/
-├── results/                    # Thư mục lưu kết quả đầu ra
-│   ├── a_star_tsp.gif           # GIF mô phỏng quá trình A*
-│   ├── final_result.png         # Đồ thị kết quả cuối cùng
-│   └── random_points_10.json    # File JSON lưu các điểm sinh ngẫu nhiên
-│
-├── astar.py                    # Lớp AStarSolver: triển khai thuật toán A*
-├── graph.py                    # Lớp TSPGraph: đồ thị và heuristic
-├── main.py                     # Chương trình chính (entry point)
-├── points.py                   # Định nghĩa Point, sinh điểm, ma trận khoảng cách
-├── visualizer.py               # Trực quan hóa quá trình và kết quả
-│
-├── requirements.txt            # Danh sách thư viện Python cần thiết
-└── README.md                   # Tài liệu mô tả project
+git clone <repo-url>  # Nếu từ Git
+# Hoặc tải ZIP và giải nén
 ```
----
-
-## 🛠️ Yêu cầu & cài đặt
-
-Project sử dụng các thư viện Python sau:
-
-- `numpy`
-- `matplotlib`
-- `imageio`
-
-📦 Cài đặt nhanh bằng requirements.txt
-
+2. Tạo môi trường ảo (khuyến nghị):
+``` 
+python -m venv venv
+source venv/bin/activate  # Linux/Mac
+# Hoặc venv\Scripts\activate  # Windows
+```
+3. Cài đặt thư viện:
 ```
 pip install -r requirements.txt
 ```
-## 🧠 Các thành phần chính
----
-### 1️⃣ points.py
-- Định nghĩa lớp Point với tọa độ $(x, y)$ và chỉ mục.
-- Tạo n điểm ngẫu nhiên.
-- Điểm 0 cố định tại $(0, 0)$ (đóng vai trò kho).
-- Tính ma trận khoảng cách Euclidean giữa mọi cặp điểm.
----
-### 2️⃣ graph.py
-Lớp TSPGraph: biểu diễn đồ thị TSP.
-
-Thuộc tính dist: ma trận khoảng cách.
-
-Hàm heuristic khả chấp (admissible):
-
-- $h = \min\_dist \times \frac{\text{remaining}}{2}$
-
-
-Trong đó:
-
-- $\min_dist$: khoảng cách ngắn nhất từ điểm hiện tại đến một điểm chưa thăm
-- $\text{remaining}$: số lượng điểm chưa thăm
-
-📌 Heuristic này đảm bảo A* luôn tìm ra nghiệm tối ưu.
-
-- is_goal: kiểm tra xem tất cả các điểm đã được thăm hay chưa.
----
-### 3️⃣ astar.py
-- Lớp AStarSolver: triển khai thuật toán A* với heapq (priority queue).
-- Trạng thái được biểu diễn bởi bộ:
-
-```
-(current, visited, g, path)
-```
-Trong đó:
-- current: điểm hiện tại
-- visited: bitmask các điểm đã thăm
-- g: chi phí thực tế từ kho đến hiện tại
-- path: danh sách các điểm đã đi qua
-
-Hàm calc_f:
-```
-𝑓 = 𝑔 + ℎ
-```
-
-- visited_states dùng để lưu chi phí g nhỏ nhất của mỗi trạng thái,
-giúp tránh duyệt lại các trạng thái kém hiệu quả.
---- 
-### 4️⃣ visualizer.py
-- Lớp Visualizer: trực quan hóa quá trình tìm kiếm.
-- Ghép các ảnh PNG thành GIF mô phỏng quá trình A*
-- Vẽ đường đi tối ưu cuối cùng
-- Hiển thị tổng chi phí
-
-🏃 Cách chạy chương trình
-Chạy file main.py:
-
+## Hướng Dẫn Sử Dụng
+### Chạy Dự Án
+Chạy file chính:
 ```
 python main.py
 ```
-Chương trình chạy tương tác trong terminal.
 
----
-### 🔄 Quá trình tương tác
-Khi chạy, chương trình sẽ yêu cầu nhập:
+- Chương trình sẽ hỏi lựa chọn dữ liệu (load từ file JSON hoặc tạo ngẫu nhiên).
+- Nếu tạo ngẫu nhiên: Nhập số lượng điểm (n, mặc định 5, max 12).
+- Chương trình sẽ:
+    - Tải và tạo điểm (lưu JSON vào results/).
+    - Chạy A* (verbose để xem từng bước: pop nút, mở rộng, queue f).
+    - Visualize từng bước (lưu PNG tạm), tạo GIF animation.
+    - Vẽ kết quả cuối (lưu PNG) và dọn dẹp frames tạm.
+    - In danh sách file trong results/.
 
-Load từ file JSON điểm? (y/n, mặc định n)
 
-- y: load điểm từ file cũ
+### Ví Dụ Chạy Với Tạo Ngẫu Nhiên (n=5)
+- Chọn "random" → Nhập n=5.
+- Kết quả: Path ví dụ [0, 2, 4, 1, 3], chi phí ~10-15 (tùy random), GIF hiển thị 5-6 bước A*, lưu file trong results/.
 
-- n: tạo điểm mới
+### Tùy Chỉnh
 
-Số lượng điểm n (mặc định 5, tối đa 12)
+- Thay đổi n: Nhập khi hỏi (max 12 để tránh chậm).
+- Tốc độ GIF: Chỉnh duration trong visualizer.py (mặc định 8.5s/frame để chậm, dễ quan sát).
+- Load file: Tạo file JSON với format [{"index":0,"x":0,"y":0}, ...] và nhập đường dẫn.
+- Không verbose: Chỉnh print trong solver.py hoặc tăng max_steps trong main.py.
 
-- Khuyến nghị: n ≤ 12
-
-- Sử dụng dữ liệu mặc định? (y/n)
-
-- y: dùng dữ liệu mẫu (n nhỏ)
-
-- n: sinh điểm ngẫu nhiên
----
-## 📊 Kết quả đầu ra
-Sau khi chạy xong:
-
-- results/a_star_tsp.gif: mô phỏng toàn bộ quá trình A*
-
-- results/final_result.png: đồ thị đường đi tối ưu
-
-- results/random_points_n.json: dữ liệu điểm (nếu sinh ngẫu nhiên)
----
-## ⚠️ Lỗi thường gặp & cách khắc phục
-### ❌ Không tìm thấy thư viện
-Lỗi:
+## Cấu Trúc Thư Mục
+Dự án được tổ chức theo cấu trúc modular đơn giản, với mã nguồn chính ở thư mục gốc và thư mục results/ được tạo tự động khi chạy. Dưới đây là cây thư mục đầy đủ (bao gồm file mẫu sau khi chạy một lần):
 ```
-ModuleNotFoundError: No module named 'imageio'
+BaiHTuan02 Astar TSP/                      # Thư mục gốc dự án
+├── points.py                              # Class Point và hàm utility: generate_random_points, get_distance_matrix
+├── graph.py                               # Class TSPGraph: Mô hình đồ thị, heuristic, neighbors
+├── solver.py                              # Class AStarSolver: Triển khai A* (solve_with_visual, calc_f)
+├── visualizer.py                          # Class Visualizer: Vẽ step, tạo GIF, plot final, cleanup
+├── runner.py                              # Class TSPRunner: Quản lý flow (interactive choice, run)
+├── main.py                                # Script chính: Chạy toàn bộ quy trình
+├── requirements.txt                       # Danh sách thư viện cần thiết
+├── README.md                              # Tài liệu hướng dẫn này
+├── BaiHTuan02 Astar TSP.ipynb             # File Jupyter Notebook: Báo cáo chi tiết (tùy chọn, cho demo)
+└── results/                               # Thư mục tự tạo (chứa output sau khi chạy)
+    ├── a_star_tsp.gif                     # GIF animation từng bước A*
+    ├── final_result.png                   # Hình ảnh kết quả cuối (path xanh, chi phí)
+    └── random_points_12.json              # File JSON dữ liệu điểm ngẫu nhiên (n=12)
 ```
-Khắc phục:
-```
-pip install numpy matplotlib imageio
-```
-### ❌ Chạy quá lâu / treo chương trình
-Nguyên nhân:
+- **Lưu ý về results/:**
+- Thư mục này được tạo tự động khi chạy main.py.
+- Tất cả file không có timestamp (ghi đè nếu chạy lại), nhưng có thể chỉnh để thêm (ví dụ: trong runner.py).
+- Nếu chạy nhiều lần, thư mục sẽ chứa file mới (có thể xóa thủ công nếu cần).
 
-- Số điểm n quá lớn
+- **File tùy chọn:**
+- README.md.txt: Bản sao README (có thể đổi tên thành README.md).
+- BaiHTuan02 Astar TSP.ipynb: Notebook Jupyter để chạy và demo (tích hợp code từ main.py).
 
-Giải pháp:
-
-- Giảm số điểm
-
-- Khuyến nghị: n ≤ 12
-
-### ❌ Lỗi đọc / ghi file JSON
-Lỗi:
-```
-FileNotFoundError: json.JSONDecodeError
-```
-Khắc phục:
-- Kiểm tra đường dẫn file JSON
-- Đảm bảo file đúng định dạng
-
-### ❌ Không tạo được GIF
-Nguyên nhân:
-
-- Thiếu backend cho imageio
-
-Khắc phục:
-```
-pip install imageio-ffmpeg
-```
-## ✅ Ghi chú
-- Project tập trung vào minh họa thuật toán A* cho TSP
-
-- Không tối ưu cho dữ liệu lớn
+## Lưu ý & Troubleshooting
+- Lỗi Matplotlib: Nếu không lưu PNG/GIF, cài backend Agg (matplotlib.use('Agg')) hoặc chạy trên Jupyter/Colab.
+- Lỗi Import: Đảm bảo chạy từ thư mục gốc dự án (python main.py).
+- n lớn: A* chậm với n > 10, tăng max_steps nếu cần, nhưng giới hạn 12.
+- Không có GUI: Code chỉ lưu file (không plt.show()).
+- Mở rộng: Thêm quay về kho bằng cách + dist[path[-1]][0] trong solver.py; thay heuristic trong graph.py.
